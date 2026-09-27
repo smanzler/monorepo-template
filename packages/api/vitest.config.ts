@@ -30,6 +30,9 @@ const testEnv: Record<keyof Env, string> = {
   APPLE_KEY_ID: "apple-key-id",
   APPLE_PRIVATE_KEY: "apple-private-key",
   APPLE_APP_BUNDLE_IDENTIFIER: "com.test",
+
+  REVIEW_EMAIL: "review@example.com",
+  REVIEW_OTP: "123456",
 };
 
 export default defineConfig({

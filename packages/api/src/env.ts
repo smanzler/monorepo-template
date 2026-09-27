@@ -23,6 +23,12 @@ export const envSchema = z.object({
   SMTP_FROM: z.string().default("Template <noreply@template.local>"),
 
   EXPO_ACCESS_TOKEN: z.string().optional(),
+
+  REVIEW_EMAIL: z.email().toLowerCase().optional(),
+  REVIEW_OTP: z
+    .string()
+    .regex(/^\d{6}$/)
+    .optional(),
 });
 
 export type Env = z.infer<typeof envSchema>;
