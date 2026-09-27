@@ -4,3 +4,5 @@ node_modules
 .local
 dist
 google-services.json
+.vercel
+.DS_STORE

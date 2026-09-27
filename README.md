@@ -21,6 +21,12 @@ docker/         Local Postgres, pgAdmin and Mailpit
 - **Push notifications** — `notify()` writes a notification row and queues a
   delivery on pg-boss, which sends it via Expo. The mobile app registers its
   push token on launch.
+- **Onboarding** — a first-launch flow under `app/onboarding` (a
+  notifications step) that runs before sign-in. Add steps with
+  `OnboardingStep` and bump its `STEP_COUNT`.
+- **Account deletion** — `account.delete` removes the user's uploads and
+  account; the home screen and the web `/delete-account` page expose it, as
+  the app stores require.
 - **File uploads** — `files.createUpload` / `files.confirmUpload` hand out
   presigned S3 URLs so clients upload straight to the bucket.
 
@@ -36,7 +42,9 @@ docker/         Local Postgres, pgAdmin and Mailpit
 4. Create the first migration, then apply it:
    `pnpm --filter @template/api exec drizzle-kit generate` and
    `pnpm --filter @template/api exec drizzle-kit migrate`
-5. `pnpm dev` — runs docker, API, mobile and web in tmux panes
+5. `pnpm dev` — starts docker, API, mobile and web in a detached `template`
+   tmux session; `pnpm down` stops everything (`pnpm down -- --purge` also
+   wipes the database volumes)
 
 Sign-in codes land in Mailpit at http://localhost:8025.
 
@@ -50,14 +58,27 @@ Things that can't be inherited from the template — do these once per project:
       `app.config.ts`.
 - [ ] **Android push**: add `google-services.json` to `apps/mobile` and
       re-enable `android.googleServicesFile` in `app.config.ts`.
+- [ ] **Android release signing**: set `TEMPLATE_UPLOAD_STORE_FILE`,
+      `TEMPLATE_UPLOAD_STORE_PASSWORD`, `TEMPLATE_UPLOAD_KEY_ALIAS` and
+      `TEMPLATE_UPLOAD_KEY_PASSWORD` in `~/.gradle/gradle.properties` (or as
+      `ORG_GRADLE_PROJECT_*` env vars) for local release builds; see
+      `apps/mobile/plugins/withReleaseSigning.ts`.
+- [ ] **Store review account**: set `REVIEW_EMAIL` and `REVIEW_OTP` on the
+      API so reviewers can sign in without an inbox.
+- [ ] **Web site info**: fill in `apps/web/src/lib/site.ts`, replace the
+      `example.com` URLs in `apps/web/public/robots.txt` and `sitemap.xml`,
+      and write the privacy and terms pages (they ship as TODO outlines).
 - [ ] **Icons**: replace the images in `packages/shared/assets/images` (app
       icon, splash, adaptive icons, favicon, and `icon-email.png` used in the
-      OTP email).
+      OTP email), and regenerate `logo192.png`, `logo512.png` and
+      `apple-touch-icon.png` in `apps/web/public` from the new icon.
 - [ ] **Fly.io**: `app` in `packages/api/fly.toml` must be an app that exists
       (`fly apps create <name>`), then set the `FLY_API_TOKEN` and
       `DATABASE_URL` GitHub secrets.
-- [ ] **Vercel**: set `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`
-      GitHub secrets for the web deploy, and `EXPO_TOKEN` for mobile OTA.
+- [ ] **Vercel**: set the project's Root Directory to `apps/web` (the deploy
+      uploads the whole repo so the pnpm workspace resolves), then set
+      `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID` GitHub secrets for
+      the web deploy, and `EXPO_TOKEN` for mobile OTA.
 - [ ] **S3**: create a bucket and fill in the `BUCKET_*` env vars, or delete
       `packages/api/src/lib/s3.ts` and the `files` router if you don't need
       uploads.

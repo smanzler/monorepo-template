@@ -20,6 +20,15 @@ const mailer = createTransport({
       : undefined,
 });
 
+function isReviewSignIn(email: string, type: string) {
+  return (
+    type === "sign-in" &&
+    env.REVIEW_EMAIL !== undefined &&
+    env.REVIEW_OTP !== undefined &&
+    email === env.REVIEW_EMAIL
+  );
+}
+
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: "pg",
@@ -29,7 +38,11 @@ export const auth = betterAuth({
   plugins: [
     expo(),
     emailOTP({
+      generateOTP: ({ email, type }) =>
+        isReviewSignIn(email, type) ? env.REVIEW_OTP : undefined,
       async sendVerificationOTP({ email, otp, type }) {
+        if (isReviewSignIn(email, type)) return;
+
         const subject =
           type === "sign-in" ? "Your sign in code" : "Verify your email";
 

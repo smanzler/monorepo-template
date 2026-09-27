@@ -35,6 +35,10 @@ const buttonVariants = cva(
           "bg-secondary active:bg-secondary/80 shadow-sm shadow-black/5",
           Platform.select({ web: "hover:bg-secondary/80" }),
         ),
+        card: cn(
+          "bg-card border-border active:bg-accent border shadow-sm shadow-black/5",
+          Platform.select({ web: "hover:bg-accent" }),
+        ),
         ghost: cn(
           "active:bg-accent dark:active:bg-accent/50",
           Platform.select({ web: "hover:bg-accent dark:hover:bg-accent/50" }),
@@ -79,6 +83,10 @@ const buttonTextVariants = cva(
           Platform.select({ web: "group-hover:text-accent-foreground" }),
         ),
         secondary: "text-secondary-foreground",
+        card: cn(
+          "text-card-foreground group-active:text-accent-foreground",
+          Platform.select({ web: "group-hover:text-accent-foreground" }),
+        ),
         ghost: "group-active:text-accent-foreground",
         link: cn(
           "text-primary group-active:underline",
