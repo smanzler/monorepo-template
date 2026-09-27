@@ -21,6 +21,12 @@ docker/         Local Postgres, pgAdmin and Mailpit
 - **Push notifications** — `notify()` writes a notification row and queues a
   delivery on pg-boss, which sends it via Expo. The mobile app registers its
   push token on launch.
+- **Onboarding** — a first-launch flow under `app/onboarding` (a
+  notifications step) that runs before sign-in. Add steps with
+  `OnboardingStep` and bump its `STEP_COUNT`.
+- **Account deletion** — `account.delete` removes the user's uploads and
+  account; the home screen and the web `/delete-account` page expose it, as
+  the app stores require.
 - **File uploads** — `files.createUpload` / `files.confirmUpload` hand out
   presigned S3 URLs so clients upload straight to the bucket.
 
@@ -52,6 +58,13 @@ Things that can't be inherited from the template — do these once per project:
       `app.config.ts`.
 - [ ] **Android push**: add `google-services.json` to `apps/mobile` and
       re-enable `android.googleServicesFile` in `app.config.ts`.
+- [ ] **Android release signing**: set `TEMPLATE_UPLOAD_STORE_FILE`,
+      `TEMPLATE_UPLOAD_STORE_PASSWORD`, `TEMPLATE_UPLOAD_KEY_ALIAS` and
+      `TEMPLATE_UPLOAD_KEY_PASSWORD` in `~/.gradle/gradle.properties` (or as
+      `ORG_GRADLE_PROJECT_*` env vars) for local release builds; see
+      `apps/mobile/plugins/withReleaseSigning.ts`.
+- [ ] **Store review account**: set `REVIEW_EMAIL` and `REVIEW_OTP` on the
+      API so reviewers can sign in without an inbox.
 - [ ] **Icons**: replace the images in `packages/shared/assets/images` (app
       icon, splash, adaptive icons, favicon, and `icon-email.png` used in the
       OTP email).

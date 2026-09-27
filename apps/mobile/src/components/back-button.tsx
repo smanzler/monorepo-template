@@ -12,7 +12,7 @@ const BackButton = ({
 }: BackButtonProps) => (
   <Button
     className={cn("rounded-full", className)}
-    variant="outline"
+    variant="card"
     size="icon"
     onPress={onPress}
     {...props}
