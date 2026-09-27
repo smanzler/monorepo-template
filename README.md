@@ -65,9 +65,13 @@ Things that can't be inherited from the template — do these once per project:
       `apps/mobile/plugins/withReleaseSigning.ts`.
 - [ ] **Store review account**: set `REVIEW_EMAIL` and `REVIEW_OTP` on the
       API so reviewers can sign in without an inbox.
+- [ ] **Web site info**: fill in `apps/web/src/lib/site.ts`, replace the
+      `example.com` URLs in `apps/web/public/robots.txt` and `sitemap.xml`,
+      and write the privacy and terms pages (they ship as TODO outlines).
 - [ ] **Icons**: replace the images in `packages/shared/assets/images` (app
       icon, splash, adaptive icons, favicon, and `icon-email.png` used in the
-      OTP email).
+      OTP email), and regenerate `logo192.png`, `logo512.png` and
+      `apple-touch-icon.png` in `apps/web/public` from the new icon.
 - [ ] **Fly.io**: `app` in `packages/api/fly.toml` must be an app that exists
       (`fly apps create <name>`), then set the `FLY_API_TOKEN` and
       `DATABASE_URL` GitHub secrets.
