@@ -36,7 +36,9 @@ docker/         Local Postgres, pgAdmin and Mailpit
 4. Create the first migration, then apply it:
    `pnpm --filter @template/api exec drizzle-kit generate` and
    `pnpm --filter @template/api exec drizzle-kit migrate`
-5. `pnpm dev` — runs docker, API, mobile and web in tmux panes
+5. `pnpm dev` — starts docker, API, mobile and web in a detached `template`
+   tmux session; `pnpm down` stops everything (`pnpm down -- --purge` also
+   wipes the database volumes)
 
 Sign-in codes land in Mailpit at http://localhost:8025.
 
@@ -56,8 +58,10 @@ Things that can't be inherited from the template — do these once per project:
 - [ ] **Fly.io**: `app` in `packages/api/fly.toml` must be an app that exists
       (`fly apps create <name>`), then set the `FLY_API_TOKEN` and
       `DATABASE_URL` GitHub secrets.
-- [ ] **Vercel**: set `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`
-      GitHub secrets for the web deploy, and `EXPO_TOKEN` for mobile OTA.
+- [ ] **Vercel**: set the project's Root Directory to `apps/web` (the deploy
+      uploads the whole repo so the pnpm workspace resolves), then set
+      `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID` GitHub secrets for
+      the web deploy, and `EXPO_TOKEN` for mobile OTA.
 - [ ] **S3**: create a bucket and fill in the `BUCKET_*` env vars, or delete
       `packages/api/src/lib/s3.ts` and the `files` router if you don't need
       uploads.
