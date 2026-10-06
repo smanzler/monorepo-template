@@ -32,6 +32,7 @@
     "@rn-primitives/radio-group": "^1.2.0",
     "@rn-primitives/separator": "^1.2.0",
     "@rn-primitives/slot": "^1.2.0",
+    "@sentry/react-native": "~7.11.0",
     "@tanstack/react-query": "^5.95.2",
     "@template/shared": "workspace:*",
     "@trpc/client": "^11.18.0",
@@ -77,6 +78,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
+    "@sentry/cli": "2.58.4",
     "@template/api": "workspace:*",
     "@testing-library/react-native": "^14.0.1",
     "@types/jest": "29.5.14",

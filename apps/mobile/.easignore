@@ -37,3 +37,11 @@ yarn-error.*
 # generated native folders
 /ios
 /android
+
+# fastlane
+Gemfile
+Gemfile.lock
+.bundle/
+vendor/bundle/
+fastlane/
+.maestro/
