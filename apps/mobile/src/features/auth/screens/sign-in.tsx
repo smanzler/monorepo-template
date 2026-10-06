@@ -57,6 +57,7 @@ export function SignIn() {
             <Field className="gap-1">
               <FieldLabel>Email</FieldLabel>
               <Input
+                testID="email-input"
                 autoCapitalize="none"
                 keyboardType="email-address"
                 autoComplete="email"

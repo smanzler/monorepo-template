@@ -1,0 +1,53 @@
+# Captures the store screenshots. Run it through `fastlane ios screenshots`
+# or `fastlane android screenshots`, which build the app, set
+# MAESTRO_REVIEW_EMAIL and MAESTRO_REVIEW_OTP, and file the images for upload.
+# Each takeScreenshot name is the image's file name, and sets its store order.
+# Replace the home screen step with the screens your app shows in its listing.
+appId: com.sigh10.template
+name: Store screenshots
+---
+# clearState keeps the iOS Keychain, where the app stores the session.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - clearKeychain
+- launchApp:
+    clearState: true
+    permissions:
+      all: allow
+
+# Onboarding. Every permission is granted above, so a system prompt shows
+# only where the simulator can't pre-grant one. A tap during launch can have
+# no effect, so each Continue tap is tried again until the screen changes.
+- extendedWaitUntil:
+    visible: "Stay in the loop"
+    timeout: 30000
+- tapOn:
+    text: "Continue"
+    retryTapIfNoChange: true
+- tapOn:
+    text: "Allow"
+    optional: true
+
+- extendedWaitUntil:
+    visible:
+      id: "email-input"
+    timeout: 15000
+- tapOn:
+    id: "email-input"
+- inputText: ${MAESTRO_REVIEW_EMAIL}
+- tapOn: "Continue"
+- extendedWaitUntil:
+    visible: "Enter code"
+    timeout: 15000
+# The code field is focused when the screen opens.
+- inputText: ${MAESTRO_REVIEW_OTP}
+- tapOn: "Continue"
+
+- extendedWaitUntil:
+    visible: "Sign out"
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: 01-home

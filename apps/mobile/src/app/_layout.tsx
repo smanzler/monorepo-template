@@ -1,3 +1,5 @@
+import "@/lib/sentry";
+import * as Sentry from "@sentry/react-native";
 import {
   Empty,
   EmptyDescription,
@@ -96,4 +98,4 @@ function AuthOverlay() {
   return null;
 }
 
-export default RootLayout;
+export default Sentry.wrap(RootLayout);
